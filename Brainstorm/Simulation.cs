@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using static System.Formats.Asn1.AsnWriter;
 
 namespace Brainstorm
 {
@@ -8,7 +9,7 @@ namespace Brainstorm
     {
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
-        Texture2D mapTexture;
+        private Texture2D mapTexture;
 
         public Simulation()
         {
@@ -20,7 +21,7 @@ namespace Brainstorm
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-
+            
             base.Initialize();
         }
 
@@ -31,7 +32,11 @@ namespace Brainstorm
             // TODO: use this.Content to load your game content here
             // Load the background image
             mapTexture = Content.Load<Texture2D>("map");
-            //ballTexture = Content.Load<Texture2D>("ball");
+            mapTexture = ScaleTexture(mapTexture, 1.5f);
+            // Set the window size to match the map dimensions
+            _graphics.PreferredBackBufferWidth = mapTexture.Width;
+            _graphics.PreferredBackBufferHeight = mapTexture.Height;
+            _graphics.ApplyChanges();
         }
 
         protected override void Update(GameTime gameTime)
@@ -51,10 +56,26 @@ namespace Brainstorm
             // TODO: Add your drawing code here
             _spriteBatch.Begin();
             _spriteBatch.Draw(mapTexture, Vector2.Zero, Color.White);
-            //_spriteBatch.Draw(ballTexture, new Vector2(0, 0), Color.White);
             _spriteBatch.End();
 
             base.Draw(gameTime);
+        }
+        private Texture2D ScaleTexture(Texture2D texture, float scale)
+        {
+            int newWidth = (int)(texture.Width * scale);
+            int newHeight = (int)(texture.Height * scale);
+
+            RenderTarget2D result = new(GraphicsDevice, newWidth, newHeight);
+            GraphicsDevice.SetRenderTarget(result);
+            GraphicsDevice.Clear(Color.Transparent);
+
+            _spriteBatch.Begin(samplerState: SamplerState.LinearWrap, transformMatrix: Matrix.CreateScale(scale));
+            _spriteBatch.Draw(texture, Vector2.Zero, Color.White);
+            _spriteBatch.End();
+
+            GraphicsDevice.SetRenderTarget(null);
+
+            return result;
         }
     }
 }
