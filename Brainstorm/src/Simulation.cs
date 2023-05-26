@@ -1,7 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using static System.Formats.Asn1.AsnWriter;
+using TiledSharp;
 
 namespace Brainstorm.src
 {
@@ -9,7 +9,8 @@ namespace Brainstorm.src
     {
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
-        private Texture2D mapTexture;
+        private TmxMap _map;
+        private MapManager _mapManager;
 
         public Simulation()
         {
@@ -31,11 +32,17 @@ namespace Brainstorm.src
 
             // TODO: use this.Content to load your game content here
             // Load the background image
-            mapTexture = Content.Load<Texture2D>("map");
-            mapTexture = ScaleTexture(mapTexture, 1.5f);
+            _map = new TmxMap("Content/map.tmx");
+            var tileset = Content.Load<Texture2D>("tileset");
+            var tileWidth = _map.Tilesets[0].TileWidth;
+            var tileHeight = _map.Tilesets[0].TileHeight;
+            var tilesetTilesPerRow = tileset.Width / tileWidth;
+            var scale = 1.5f;
+            _mapManager = new MapManager(_spriteBatch, _map, tileset, tilesetTilesPerRow,
+            tileWidth, tileHeight, scale);
             // Set the window size to match the map dimensions
-            _graphics.PreferredBackBufferWidth = mapTexture.Width;
-            _graphics.PreferredBackBufferHeight = mapTexture.Height;
+            _graphics.PreferredBackBufferWidth = (int)(_map.Width * tileWidth * scale);
+            _graphics.PreferredBackBufferHeight = (int)(_map.Height * tileHeight * scale);
             _graphics.ApplyChanges();
         }
 
@@ -55,27 +62,10 @@ namespace Brainstorm.src
 
             // TODO: Add your drawing code here
             _spriteBatch.Begin();
-            _spriteBatch.Draw(mapTexture, Vector2.Zero, Color.White);
+            _mapManager.Draw();
             _spriteBatch.End();
 
             base.Draw(gameTime);
-        }
-        private Texture2D ScaleTexture(Texture2D texture, float scale)
-        {
-            int newWidth = (int)(texture.Width * scale);
-            int newHeight = (int)(texture.Height * scale);
-
-            RenderTarget2D result = new(GraphicsDevice, newWidth, newHeight);
-            GraphicsDevice.SetRenderTarget(result);
-            GraphicsDevice.Clear(Color.Transparent);
-
-            _spriteBatch.Begin(samplerState: SamplerState.LinearWrap, transformMatrix: Matrix.CreateScale(scale));
-            _spriteBatch.Draw(texture, Vector2.Zero, Color.White);
-            _spriteBatch.End();
-
-            GraphicsDevice.SetRenderTarget(null);
-
-            return result;
         }
     }
 }
