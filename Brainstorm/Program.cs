@@ -1,3 +1,3 @@
 ﻿
-using var game = new Brainstorm.Simulation();
+using var game = new Brainstorm.src.Simulation();
 game.Run();

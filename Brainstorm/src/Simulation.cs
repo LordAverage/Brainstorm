@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using static System.Formats.Asn1.AsnWriter;
 
-namespace Brainstorm
+namespace Brainstorm.src
 {
     public class Simulation : Game
     {
@@ -21,7 +21,7 @@ namespace Brainstorm
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-            
+
             base.Initialize();
         }
 
