@@ -3,16 +3,16 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Brainstorm.src
 {
-    internal class Zombie : NPC
+    internal class Human : NPC
     {
-        public Zombie(Vector2 position, float velocity)
-            : base( position, velocity)
+        public Human(Vector2 position, float velocity)
+            : base(position, velocity)
         {
             // Load zombie sprite sheet
-            Texture2D spriteSheet = AssetManager.LoadTexture("zombiebasic");
+            Texture2D spriteSheet = AssetManager.LoadTexture("player_run_strip6");
 
             // Create and return the animation using the loaded sprites
-            Animation = new Animation(spriteSheet, spritesPerRow: 3, totalFrames: 6, frameDuration: 0.35f);
+            Animation = new Animation(spriteSheet, spritesPerRow: 1, totalFrames: 6, frameDuration: 0.3f);
         }
         public override void Update(GameTime gameTime)
         {

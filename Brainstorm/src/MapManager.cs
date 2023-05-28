@@ -1,9 +1,5 @@
 ﻿using Microsoft.Xna.Framework.Graphics;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TiledSharp;
 using Microsoft.Xna.Framework;
 
@@ -57,7 +53,7 @@ namespace Brainstorm.src
                         int row = (int)Math.Floor((double)tileFrame / (double)_tilesetTilesPerRow);
                         float x = (j % _map.Width) * _map.TileWidth * _scale;
                         float y = (float)Math.Floor(j / (double)_map.Width) * _map.TileHeight * _scale;
-                        Rectangle tilesetRec = new Rectangle((_tileWidth) * column, (_tileHeight) * row,
+                        Rectangle tilesetRec = new((_tileWidth) * column, (_tileHeight) * row,
                             _tileWidth, _tileHeight);
                         _spriteBatch.Draw(_tileset, new Rectangle((int)x, (int)y, (int)(_tileWidth * _scale), (int)(_tileHeight * _scale)),
                             tilesetRec, Color.White);
