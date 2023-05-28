@@ -5,14 +5,24 @@ namespace Brainstorm.src
 {
     internal class Human : NPC
     {
-        public Human(Vector2 position, float velocity)
-            : base(position, velocity)
+        public Human()
+            : this(180f)
         {
-            // Load zombie sprite sheet
+
+        }
+        public Human(float velocity)
+            : base(velocity)
+        {
+            // Load human sprite sheet
             Texture2D spriteSheet = AssetManager.LoadTexture("player_run_strip6");
 
             // Create and return the animation using the loaded sprites
             Animation = new Animation(spriteSheet, spritesPerRow: 1, totalFrames: 6, frameDuration: 0.3f);
+        }
+        public Human(Vector2 position, float velocity)
+            : base(position, velocity)
+        {
+
         }
         public override void Update(GameTime gameTime)
         {

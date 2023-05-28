@@ -46,7 +46,12 @@ namespace Brainstorm.src
             NPC.SetMap(_map, scale);
 
             // Create the NPCs
-            NPCList.Add(new Zombie(new Vector2(15 * 48, 10 * 48), 200f));
+            //NPCList.Add(new Zombie(new Vector2(15 * tileWidth * scale, 10 * tileWidth * scale)));
+            NPCList.Add(new Zombie());
+            NPCList.Add(new Zombie());
+            NPCList.Add(new Zombie());
+            NPCList.Add(new Human());
+            NPCList.Add(new Human());
 
             // Set the window size to match the map dimensions
             _graphics.PreferredBackBufferWidth = (int)(_map.Width * tileWidth * scale);

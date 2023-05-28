@@ -12,6 +12,11 @@ namespace Brainstorm.src
         private float FrameDuration { get; }
         private float Timer { get; set; }
         private Direction Direction { get; set; } = Direction.Up;
+        public Direction GetDirection()
+        {
+            return Direction;
+        }
+
         public void SetDirection(Direction direction)
         {
             Direction = direction;
