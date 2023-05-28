@@ -16,10 +16,7 @@ namespace Brainstorm.src
         }
         public override void Update(GameTime gameTime)
         {
-            // Update the animation
-            Animation.Update(gameTime);
-
-            // Call the base Update method to handle movement logic
+            // Call the base Update method to handle movement and animation logic
             base.Update(gameTime);
         }
 

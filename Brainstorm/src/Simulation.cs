@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System.Collections.Generic;
 using TiledSharp;
 
 namespace Brainstorm.src
@@ -11,7 +12,7 @@ namespace Brainstorm.src
         private SpriteBatch _spriteBatch;
         private TmxMap _map;
         private MapManager _mapManager;
-        private Zombie _zombie;
+        private List<NPC> NPCList = new();
 
         public Simulation()
         {
@@ -43,7 +44,10 @@ namespace Brainstorm.src
             _mapManager = new MapManager(_spriteBatch, _map, tileset, tilesetTilesPerRow,
             tileWidth, tileHeight, scale);
             NPC.SetMap(_map, scale);
-            _zombie = new Zombie(new Vector2(15 * 48, 10 * 48), 200f);
+
+            // Create the NPCs
+            NPCList.Add(new Zombie(new Vector2(15 * 48, 10 * 48), 200f));
+
             // Set the window size to match the map dimensions
             _graphics.PreferredBackBufferWidth = (int)(_map.Width * tileWidth * scale);
             _graphics.PreferredBackBufferHeight = (int)(_map.Height * tileHeight * scale);
@@ -56,7 +60,12 @@ namespace Brainstorm.src
                 Exit();
 
             // TODO: Add your update logic here
-            _zombie.Update(gameTime);
+            NPC.Update(NPCList);
+            foreach (var npc in NPCList)
+            {
+                npc.Update(gameTime);
+            }
+
             base.Update(gameTime);
         }
 
@@ -67,7 +76,10 @@ namespace Brainstorm.src
             // TODO: Add your drawing code here
             _spriteBatch.Begin();
             _mapManager.Draw();
-            _zombie.Draw(_spriteBatch);
+            foreach (var npc in NPCList)
+            {
+                npc.Draw(_spriteBatch);
+            }
             _spriteBatch.End();
 
             base.Draw(gameTime);

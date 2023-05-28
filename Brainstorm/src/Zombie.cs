@@ -12,14 +12,11 @@ namespace Brainstorm.src
             Texture2D spriteSheet = AssetManager.LoadTexture("zombiebasic");
 
             // Create and return the animation using the loaded sprites
-            Animation = new Animation(spriteSheet, spritesPerRow: 3, totalFrames: 6, frameDuration: 0.35f);
+            Animation = new Animation(spriteSheet, spritesPerRow: 3, totalFrames: 6, frameDuration: 0.175f);
         }
         public override void Update(GameTime gameTime)
         {
-            // Update the animation
-            Animation.Update(gameTime);
-
-            // Call the base Update method to handle movement logic
+            // Call the base Update method to handle movement and animation logic
             base.Update(gameTime);
         }
 
@@ -27,6 +24,10 @@ namespace Brainstorm.src
         {
             // Draw the zombie's animation at its current position
             Animation.Draw(spriteBatch, PositionList[PositionListIndex], 0.75f);
+        }
+        private Direction DecideNextMove()
+        {
+            return Direction.Up;
         }
     }
 }
