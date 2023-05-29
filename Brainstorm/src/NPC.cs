@@ -67,7 +67,10 @@ namespace Brainstorm.src
                     // Move(Decision.BestPositionList[PositionListIndex]);
                     if (!Busy)
                     {
-                        Move(Direction.Right);
+                        Array directions = Enum.GetValues(typeof(Direction));
+                        int randomIndex = new Random().Next(directions.Length);
+                        Direction randomDirection = (Direction)directions.GetValue(randomIndex);
+                        Move(randomDirection);
                     }
                     else
                     {
@@ -161,19 +164,19 @@ namespace Brainstorm.src
 
             // How much left for tile completion
             Vector2 targetTileLeft = targetTilePosition * new Vector2(Map.TileWidth * MapScale, Map.TileHeight * MapScale);
-            float distanceLeft = Vector2.Distance(PositionList[PositionListIndex], targetTileLeft);
+            //float distanceLeft = Vector2.Distance(PositionList[PositionListIndex], targetTileLeft);
 
             // Set movement increment
             float movementIncrement = 0.05f;
 
             Vector2 nextPosition = Vector2.Lerp(PositionList[PositionListIndex], targetPosition, movementIncrement);
 
-            if (distanceLeft < Vector2.Distance(PositionList[PositionListIndex], nextPosition))
-            {
-                PositionList[PositionListIndex] = targetTileLeft;
-                Busy = false;
-                return;
-            }
+            //if (distanceLeft < Vector2.Distance(PositionList[PositionListIndex], nextPosition))
+            //{
+            //    PositionList[PositionListIndex] = targetTileLeft;
+            //    Busy = false;
+            //    return;
+            //}
             // Check if the target tile position is valid and not obstructed
             if (IsTileValid(nextPosition) && !CheckCollisionWithObstacles(nextPosition, direction))
             {
